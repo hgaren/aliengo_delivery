@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+ 
+<launch>
+
+<!--octomap 3D mapping-->
+
+<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+	<param name="resolution" value="0.1" />
+	<param name="frame_id" type="string" value="odom" />
+	<param name="filter_ground" type="bool" value="false" />
+	<param name="sensor_model/max_range" value="10.0" />
+	<remap from="cloud_in" to="/aliengo/cloud" /> 
+</node>
+
+</launch>

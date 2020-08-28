@@ -1,0 +1,7 @@
+global_frame: odom
+rolling_window: false
+track_unknown_space: true
+map_topic: odom
+plugins:
+  - {name: static,                  type: "costmap_2d::StaticLayer"}
+  - {name: inflation,               type: "costmap_2d::InflationLayer"}

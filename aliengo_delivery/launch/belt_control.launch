@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+ 
+<launch>
+
+   
+   <node pkg="aliengo_delivery" type="belt_control_node" respawn="false" name="belt_control_node" output= "screen">
+       
+
+    </node>
+
+    
+
+</launch>

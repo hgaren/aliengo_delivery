@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="paused" default="true"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
+    <arg name="user_debug" default="false"/>
+    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find aliengo_gazebo)/launch/world/elevated_world.world"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+    <!-- Load the URDF into the ROS Parameter Server -->
+<!--GAREN ADDS START-->
+    <param name="robot_description"
+           command="$(find xacro)/xacro --inorder '$(find aliengo_description)/xacro/robot.xacro' 
+           DEBUG:=$(arg user_debug)"/>
+<!--GAREN ADDS END-->
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+    <!-- Set trunk and joint positions at startup -->
+    <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
+          args="-urdf -x -4.418915 -y 4.081438 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/>
+    <!--node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
+          args="-urdf -x -5.15 -y 7.89 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/-->
+
+ <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner1" respawn="false" output="screen"
+          args="-urdf -x -3.344833  -y 8.031302 -z 0.05  -model belt -file '$(find aliengo_gazebo)/launch/world/moving_ground.urdf' -unpause"/>
+ <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner2" respawn="false" output="screen"
+          args="-urdf -x -2 -y 8.031302 -z 0.5  -model box -file '$(find aliengo_gazebo)/launch/world/my_box.urdf' -unpause"/>
+
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find aliengo_gazebo)/config/robot_control.yaml" command="load"/>
+
+    <!-- load the controllers -->
+    <node pkg="controller_manager" type="spawner" name="controller_spawner" respawn="false"
+          output="screen" ns="/laikago_gazebo" args="joint_state_controller
+          FL_hip_controller FL_thigh_controller FL_calf_controller
+          FR_hip_controller FR_thigh_controller FR_calf_controller
+          RL_hip_controller RL_thigh_controller RL_calf_controller
+          RR_hip_controller RR_thigh_controller RR_calf_controller "/>
+
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
+          respawn="false" output="screen">
+        <remap from="/joint_states" to="/laikago_gazebo/joint_states"/>
+    </node>
+
+    <!-- <node pkg="laikago_gazebo" type="servo" name="servo" required="true" output="screen"/> -->
+<!--GAREN ADDS START-->
+      	<!--node pkg="aliengo_gazebo" type="sim_odometry_converter.py" respawn="true" name="pose_converter"/-->
+
+	<!--Champ-Garen Legged Controller with Foot Placement -->
+  	<include file="$(find aliengo_config)/launch/foot_planner.launch"/>
+	<!--Champ-Garen Legged Controller without Foot Placement -->
+  	<!--include file="$(find aliengo_config)/launch/bringup.launch"/-->
+	<!-- 2D localization node -->
+	<!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+            <remap from="odometry/filtered" to="odometry/filtered" />
+            <rosparam command="load" file="$(find aliengo_config)/config/ekf/ekf.yaml" />
+        </node-->
+        <node pkg="aliengo_gazebo" name="sim_odometry_converter" type="sim_odometry_converter.py" output="screen"/>
+<!-- static tf for simulations -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_to_camera" args="0 0 0.02 -1.54 0 -1.58 camera_link /camera" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_imu"   args="0 0 0 0 0 0 base imu_link" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_belt"   args="-3.12 7.87 0.3 0 0 0.003684 /odom /laser_link_belt" />
+
+  	<node type="rviz" name="rviz" pkg="rviz" args="-d $(find aliengo_gazebo)/rviz/urdf_viewer.rviz" />
+
+<!--GAREN ADDS END-->
+</launch>
