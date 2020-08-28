@@ -28,6 +28,8 @@ namespace aliengo_delivery {
 
     updateTimer_ = n_.createTimer(ros::Duration(1/rate), &BeltControl::updateTimerCallback, this);
     forceClient   = n_.serviceClient<gazebo_msgs::ApplyBodyWrench>("/gazebo/apply_body_wrench");
+    n_.getParam(ros::this_node::getName( )+"/box_distance", box_distance);
+    n_.getParam(ros::this_node::getName( )+"/apply_force", apply_force);
     inputCloud_.reset(new pcl::PointCloud<pcl::PointXYZ>);
     ROS_INFO("Belt Control  started.");
 
@@ -52,7 +54,7 @@ namespace aliengo_delivery {
   //update functions 
   void BeltControl::updateTimerCallback(const ros::TimerEvent& timerEvent) {
     if(pc_available ){
-      double reference = 3.0;
+      double reference = box_distance;
       double error = reference - boxDistanceCalculation(inputCloud_);
       double control_signal;
       if(abs(error)<0.1){
@@ -106,7 +108,8 @@ namespace aliengo_delivery {
     force_.request.start_time = t;
     ros::Duration d(-1);
     force_.request.duration = d;
-    forceClient.call(force_);
+    if(apply_force)
+    	forceClient.call(force_);
      
   }
   

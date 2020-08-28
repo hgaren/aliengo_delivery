@@ -2,8 +2,8 @@
   <link name="my_box">
     <inertial>
       <origin xyz="0 0 0" /> 
-      <mass value="5.0" />
-      <inertia  ixx="100.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="100.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
     </inertial>
     <visual>
       <origin xyz="0 0 0"/>

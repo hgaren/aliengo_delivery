@@ -32,9 +32,9 @@
           args="-urdf -x -5.15 -y 7.89 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/-->
 
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner1" respawn="false" output="screen"
-          args="-urdf -x -3.344833  -y 8.031302 -z 0.05  -model belt -file '$(find aliengo_gazebo)/launch/world/moving_ground.urdf' -unpause"/>
+          args="-urdf -x -3.315299  -y 8.041826 -z 0.05  -model belt -file '$(find aliengo_gazebo)/launch/world/moving_ground.urdf' -unpause"/>
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner2" respawn="false" output="screen"
-          args="-urdf -x -2 -y 8.031302 -z 0.5  -model box -file '$(find aliengo_gazebo)/launch/world/my_box.urdf' -unpause"/>
+          args="-urdf -x -2.3 -y 8.031302 -z 0.5  -model box -file '$(find aliengo_gazebo)/launch/world/my_box.urdf' -unpause"/>
 
 
     <!-- Load joint controller configurations from YAML file to parameter server -->

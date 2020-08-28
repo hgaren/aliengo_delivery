@@ -52,7 +52,8 @@ class BeltControl {
   ros::Subscriber pcSubscriber_;
   ros::Timer updateTimer_;
   ros::ServiceClient forceClient; 
-  bool  pc_available = false, do_once = true;
+  bool  pc_available = false, do_once = true, apply_force = false;
+  double box_distance = 1;
   double prev_error = 0;
   double i_error = 0;
 };
