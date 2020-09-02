@@ -54,7 +54,7 @@ if __name__=="__main__":
   odom.pose.pose.orientation.w = q[3]
   odom.header.stamp=rospy.Time.now()
   odom.header.frame_id="odom"
-  control_speed = 0.5
+  control_speed = 0.1
   is_twist=False
   is_odom=False  
   count = 0
@@ -68,15 +68,9 @@ if __name__=="__main__":
     now = rospy.Time.now().to_sec()
     sec = now - starting
     print( sec )
-    if(sec<8):
-      key = 'q'#q
-    elif(sec>=8 and sec<14):
-      key = 'w'#w
-    elif(sec>=14 and sec<22):
-      key = 'e' #e
-    elif(sec>=22 and sec<24):
-      key = 'w' #e
-    else:
+    if(sec<3):
+      key = 'w'#s
+    if(sec>=3):
       key = ' '
     if key == 'w':
       twist.linear.x = control_speed ; twist.linear.y = 0 ;  twist.angular.z = 0
@@ -104,6 +98,14 @@ if __name__=="__main__":
      is_twist = True; is_odom = False
     elif key == 'e':
      twist.angular.z = -control_speed*2.5 ; twist.linear.y = 0 ; twist.linear.x = 0
+     q = quaternion_from_euler(0, 0, 0)
+     odom.pose.pose.orientation.x = q[0]
+     odom.pose.pose.orientation.y = q[1]
+     odom.pose.pose.orientation.z = q[2]
+     odom.pose.pose.orientation.w = q[3]
+     is_twist = True; is_odom = False
+    elif key == 'a':
+     twist.linear.x = 0 ; twist.linear.y = control_speed ;  twist.angular.z = 0
      q = quaternion_from_euler(0, 0, 0)
      odom.pose.pose.orientation.x = q[0]
      odom.pose.pose.orientation.y = q[1]

@@ -30,12 +30,14 @@ namespace aliengo_delivery {
     forceClient   = n_.serviceClient<gazebo_msgs::ApplyBodyWrench>("/gazebo/apply_body_wrench");
     n_.getParam(ros::this_node::getName( )+"/box_distance", box_distance);
     n_.getParam(ros::this_node::getName( )+"/apply_force", apply_force);
+    n_.getParam(ros::this_node::getName( )+"/control_signal", c_signal);
     inputCloud_.reset(new pcl::PointCloud<pcl::PointXYZ>);
     ROS_INFO("Belt Control  started.");
 
   }
 
   BeltControl::~BeltControl() {
+  	applyForce(0);
     n_.shutdown();
     updateTimer_.stop();
   }
@@ -55,31 +57,40 @@ namespace aliengo_delivery {
   void BeltControl::updateTimerCallback(const ros::TimerEvent& timerEvent) {
     if(pc_available ){
       double reference = box_distance;
-      double error = reference - boxDistanceCalculation(inputCloud_);
+      bool on_belt = false;
+      if(boxDistanceCalculation(inputCloud_) <=3.6)
+      	on_belt = true;
+      else
+      	on_belt = false;
       double control_signal;
-      if(abs(error)<0.1){
-        error = 0;
-        control_signal = 0;
-        if(do_once){
-          applyForce(control_signal);
-          do_once = false;
-        }
+      if(on_belt){
+	      double error = reference - boxDistanceCalculation(inputCloud_);
+	      if(abs(error)<0.1){
+	        error = 0;
+	        control_signal = 0;
+	        if(do_once){
+	          applyForce(control_signal);
+	          do_once = false;
+	        }
 
-      }
-      else if(error > 0){
-       control_signal = - 50;
-       applyForce(control_signal);
-       do_once = true;
+	      }
+	      else if(error > 0){
+	       control_signal = - c_signal;
+	       applyForce(control_signal);
+	       do_once = true;
 
-      }
-      else if(error < 0){
-       control_signal = 50;
-       applyForce(control_signal);
-       do_once = true;
-      }
-
-
-      cout<<error<<" "<<control_signal<<endl;
+	      }
+	      else if(error < 0){
+	       control_signal = c_signal;
+	       applyForce(control_signal);
+	       do_once = true;
+	      }
+	      cout<<error<<" "<<control_signal<<endl;
+	    }else{
+	    	applyForce(0);
+	    	cout<<" box is not on the belt"<<endl;
+	    }
+ 
       pc_available=false;
     }
   }

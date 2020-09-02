@@ -119,7 +119,7 @@ class QuadrupedFootController
     bool in_gazebo_;
     bool start_up = true;
     bool foot_ref_available = false;
-    bool walking_available = false;
+    bool walking_available = false , linear_config = false,angular_config = false, hybrid_config = false;
 
     void controlLoop_(const ros::TimerEvent& event);
     void publishJoints_(const ros::TimerEvent& event);

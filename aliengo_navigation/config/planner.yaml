@@ -1,4 +1,4 @@
-controller_frequency: 30.0
+controller_frequency: 25.0
 recovery_behaviour_enabled: false
 
 NavfnROS:
@@ -92,11 +92,11 @@ DWAPlannerROS:
   # # Oscillation Prevention Parameters
   # oscillation_reset_dist: 0.25 #How far the robot must travel in meters before oscillation flags are reset (double, default: 0.05)
 EBandPlannerROS:
- xy_goal_tolerance: 0.1
+ xy_goal_tolerance: 0.2
  yaw_goal_tolerance: 0.1
  differential_drive: true
  max_vel_lin: 0.5
- max_vel_th:  0.6
+ max_vel_th:  1
  min_vel_lin: 0
  min_vel_th: 0
- max_acceleration: 1.5
+ max_acceleration: 0.5

@@ -6,6 +6,8 @@ import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from tf.transformations import quaternion_from_euler  
 
+ 
+
 def movebase_client():
 
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
@@ -15,8 +17,8 @@ def movebase_client():
     goal.target_pose.header.frame_id = "odom"
     goal.target_pose.header.stamp = rospy.Time.now()
     
-    goal.target_pose.pose.position.x = -5.37
-    goal.target_pose.pose.position.y = 7.92
+    goal.target_pose.pose.position.x = -5.151807
+    goal.target_pose.pose.position.y = 7.144839
     q = quaternion_from_euler(0, 0, -1.542368)
     goal.target_pose.pose.orientation.x = q[0]
     goal.target_pose.pose.orientation.y = q[1]
@@ -37,6 +39,8 @@ def movebase_client():
         rospy.logerr("Action server not available!")
         rospy.signal_shutdown("Action server not available!")
     else:
+        #client.send_goal(goal)
+        #wait = client.wait_for_result(rospy.Duration.from_sec(10) )
         return client.get_result()
 
 if __name__ == '__main__':

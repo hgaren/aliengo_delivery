@@ -160,6 +160,30 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
     body_controller_.poseCommand(target_foot_positions_, req_pose_);
     leg_controller_.velocityCommand(target_foot_positions_, req_vel_);
     // foot pose reference mode
+    if(linear_config){
+       gait_config_.swing_height = 0.14;
+       gait_config_.stance_duration = 0.4;
+       gait_config_.nominal_height =   0.3;
+       base_.setGaitConfig(gait_config_);
+       cout <<"linear"<<endl;
+    }
+    else if(angular_config){
+       gait_config_.swing_height = 0.14;
+       gait_config_.stance_duration = 0.4;
+       gait_config_.nominal_height =  0.3;
+       base_.setGaitConfig(gait_config_);
+       cout<<"angular"<<endl;
+    }
+    else if(hybrid_config){
+       gait_config_.swing_height = 0.14;
+       gait_config_.stance_duration = 0.4;
+       gait_config_.nominal_height =  0.3;
+       base_.setGaitConfig(gait_config_);
+       cout<<"hybrid"<<endl;
+    }
+ 
+ 
+
     if(!walking_available && foot_ref_available){
     	int ref_id = 0;
     	int count = 0 ; 
@@ -208,6 +232,10 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
  	 	gait_config_.com_y_translation = 0 ;
  	 	base_.setGaitConfig(gait_config_);
     }
+
+
+
+
     //converts foot pose to joint angles
     kinematics_.inverse(target_joint_positions, target_foot_positions_);
     //registers current joint positions (feedback coming from joints)
@@ -231,6 +259,22 @@ void QuadrupedFootController::cmdVelCallback_(const geometry_msgs::Twist::ConstP
 	    walking_available = true;
 	    foot_ref_available = false;
 	}
+    if(req_vel_.linear.x != 0.0){
+        linear_config = true;
+        angular_config = false;
+        hybrid_config = false;
+    }
+    if(req_vel_.angular.z != 0.0 ){
+        angular_config = true;
+        hybrid_config = false;
+        linear_config = false;
+
+    }
+    if(req_vel_.linear.x != 0.0 && req_vel_.angular.z != 0.0 ){
+        angular_config = false;
+        hybrid_config = true;
+        linear_config = false;
+    }
 }
  
 

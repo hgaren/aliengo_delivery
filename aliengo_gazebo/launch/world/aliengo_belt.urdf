@@ -10,14 +10,14 @@
       <origin xyz="0 0 0"/>
       <geometry>
         <!--box size="4 1  0.01" /-->
-        <mesh filename="package://aliengo_gazebo/launch/world/belt.stl" scale="0.3 0.3 0.3"/>
+        <mesh filename="package://aliengo_gazebo/launch/world/belt.stl" scale="0.3 0.2 0.3"/>
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0"/>
       <geometry>
         <!--box size="4  1 0.01" /-->
-        <mesh filename="package://aliengo_gazebo/launch/world/belt.stl"scale="0.3 0.3 0.3"/>
+        <mesh filename="package://aliengo_gazebo/launch/world/belt.stl"scale="0.3 0.2 0.3"/>
       </geometry>
     </collision>
   </link>
