@@ -214,7 +214,7 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
 
     if(gridmap_available && odom_available ){
       geometry::Transformation new_foot_positions_[4];
-
+      bool no_warning = true;
       for (int id=0; id<4; id++ ){
         grid_map::Position position;
         grid_map::Position avFootInCircle;
@@ -237,6 +237,7 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
             continue;
           if(inputGridMap_.at("traversability", index) < 0.29)
           {          
+            no_warning = false;
             cout<<id<<" WARNING"<<endl;
             double radius = 0.05;
             position.x() = position.x() + 0.05;
@@ -265,16 +266,18 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
             }
           }
         }
-        if(no_warning){
-          gait_config_.com_x_translation =  0 ;
-          gait_config_.com_y_translation =  0 ;
-          base_.setGaitConfig(gait_config_);
-        }
+
         target_foot_positions_[id].X() = new_foot_positions_[id].X() - current_foot_positions_[id].X();
         target_foot_positions_[id].Y() = new_foot_positions_[id].Y() - current_foot_positions_[id].Y();
       
 
       } 
+
+      if(no_warning){
+          gait_config_.com_x_translation =  0 ;
+          gait_config_.com_y_translation =  0 ;
+          base_.setGaitConfig(gait_config_);
+        }
       visualizeFootAwareness(new_foot_positions_);
       gridmap_available = false;
 
