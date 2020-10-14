@@ -1,0 +1,9 @@
+grid_map_visualizations:
+  - name: varience_points
+    type: point_cloud
+    params:
+     layer: mapped_varience
+  - name: global_elevation_points
+    type: point_cloud
+    params:
+     layer: mapped_elevation

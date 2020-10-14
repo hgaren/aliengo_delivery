@@ -1,0 +1,7 @@
+grid_map_topic: /slope_map_visualization/slope_grid_map
+grid_map_visualizations:
+  - name: slope_points
+    type: point_cloud
+    params:
+     layer: slope
+  

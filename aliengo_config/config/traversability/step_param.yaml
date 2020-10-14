@@ -1,0 +1,29 @@
+step:
+ show_filtered_ground: false
+ show_segmentation: false
+ step_debug: false
+ rate: 6
+ inflation: 1.0 #grid map with rectangle inflation
+ cluster_min: 35 #segmentation properties
+ cluster_max: 300
+ z_manual: 0.12
+ smoothness: 8 #12
+ curv_threshold: 1
+ number_neighbours: 8
+#robot properties for feasable stepping
+#standart deviation threshold for planarity
+ std_threshold: 0.03
+#max/min delta for each segmented steps 
+#delta in direction of y for each segmented steps
+ critical_min_length: 0.3
+#delta in direction of x for each segmented steps
+ critical_min_width: 0.2
+ critical_max_length: 3.0
+ critical_max_width: 2.0
+#min/max height for robot stepping
+ critical_max_height: 0.46
+ critical_min_height: 0.05
+#connected step properties
+ critical_height_each: 0.4
+ critical_distance_each: 0.85
+ leg_length: 0.05 #0.1 distance between base link to ground

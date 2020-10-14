@@ -24,13 +24,10 @@
            command="$(find xacro)/xacro --inorder '$(find aliengo_description)/xacro/robot.xacro' 
            DEBUG:=$(arg user_debug)"/>
 <!--GAREN ADDS END-->
-    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
-    <!-- Set trunk and joint positions at startup -->
+     
     <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
           args="-urdf -x -4.418915 -y 4.081438 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/>
-    <!--node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
-          args="-urdf -x -5.15 -y 7.89 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/-->
-
+     
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner1" respawn="false" output="screen"
           args="-urdf -x -3.315299  -y 8.041826 -z 0.05  -model belt -file '$(find aliengo_gazebo)/launch/world/moving_ground.urdf' -unpause"/>
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner2" respawn="false" output="screen"
@@ -58,15 +55,22 @@
 <!--GAREN ADDS START-->
       	<!--node pkg="aliengo_gazebo" type="sim_odometry_converter.py" respawn="true" name="pose_converter"/-->
 
+
 	<!--Champ-Garen Legged Controller with Foot Placement -->
-  	<include file="$(find aliengo_config)/launch/foot_planner.launch"/>
-	<!--Champ-Garen Legged Controller without Foot Placement -->
+  	<!--include file="$(find aliengo_config)/launch/foot_planner.launch"/-->
+	<include file="$(find aliengo_config)/launch/foot_awareness.launch"/>
+
+<!--Champ-Garen Legged Controller without Foot Placement -->
   	<!--include file="$(find aliengo_config)/launch/bringup.launch"/-->
 	<!-- 2D localization node -->
 	<!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
             <remap from="odometry/filtered" to="odometry/filtered" />
             <rosparam command="load" file="$(find aliengo_config)/config/ekf/ekf.yaml" />
         </node-->
+
+      <!--include file="$(find aliengo_delivery)/launch/elevation_demo.launch"/-->
+
+
         <node pkg="aliengo_gazebo" name="sim_odometry_converter" type="sim_odometry_converter.py" output="screen"/>
 <!-- static tf for simulations -->
     <node pkg="tf2_ros" type="static_transform_publisher" name="camera_to_camera" args="0 0 0.02 -1.54 0 -1.58 camera_link /camera" />

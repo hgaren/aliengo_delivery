@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="logoutput" default="screen"/>
+    <rosparam command="delete" param="/RoverSmach" />
+    <rosparam command="load" file="$(find rover_state_mach)/config/smach_config.yaml" />
+    <node name="state_machine" pkg="rover_state_mach" type="state_machine.py" output="$(arg logoutput)"/>
+</launch>

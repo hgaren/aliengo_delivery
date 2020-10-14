@@ -8,6 +8,9 @@
 #include "sensor_msgs/PointCloud2.h"
 #include "nav_msgs/Odometry.h"
 #include "gazebo_msgs/ApplyBodyWrench.h"
+#include "aliengo_state_mach/RoverStateMsg.h"
+#include "aliengo_state_mach/RoverActionMsg.h"
+
 // PCL LIBRARY
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -25,6 +28,8 @@ namespace aliengo_delivery {
   BeltControl::BeltControl(ros::NodeHandle nodeHandle): n_(nodeHandle) {
     //subs elevation node's cloud output
     pcSubscriber_=n_.subscribe("/belt/cloud", 1, &BeltControl::pcCallback, this);
+    stateSubscriber_=n_.subscribe("/smach/output", 1, &BeltControl::stateCallback, this);
+    actionPublisher_=n_.advertise<aliengo_state_mach::RoverActionMsg>("/smach/input", 1);
 
     updateTimer_ = n_.createTimer(ros::Duration(1/rate), &BeltControl::updateTimerCallback, this);
     forceClient   = n_.serviceClient<gazebo_msgs::ApplyBodyWrench>("/gazebo/apply_body_wrench");
@@ -52,45 +57,68 @@ namespace aliengo_delivery {
       pc_available=false;
     }
   }
+  void BeltControl::stateCallback(const aliengo_state_mach::RoverStateMsg stateMsg) {
+    state.state = stateMsg.state;
+    state_available=true;
+  }
+  
   
   //update functions 
   void BeltControl::updateTimerCallback(const ros::TimerEvent& timerEvent) {
-    if(pc_available ){
-      double reference = box_distance;
-      bool on_belt = false;
-      if(boxDistanceCalculation(inputCloud_) <=3.6)
-      	on_belt = true;
-      else
-      	on_belt = false;
-      double control_signal;
-      if(on_belt){
-	      double error = reference - boxDistanceCalculation(inputCloud_);
-	      if(abs(error)<0.1){
-	        error = 0;
-	        control_signal = 0;
-	        if(do_once){
-	          applyForce(control_signal);
-	          do_once = false;
-	        }
+    if(pc_available && state_available){
+      if(state.state == state.IDLE_IDLE_2){
+        action.ACTION = action.MOVING_BOX_STARTED;
+        actionPublisher_.publish(action);
+      }
+     if(state.state == state.IDLE_IDLE_3){
+        double error = box_distance - boxDistanceCalculation(inputCloud_);
+        if(abs(error)<0.1){
+          action.ACTION = action.BOX_IS_ON_THE_ROBOT;
+          actionPublisher_.publish(action);
+        }
+      }
+    
+      if(state.state == state.IDLE_WORKING){
+        double reference = box_distance;
+        bool on_belt = false;
+        if(boxDistanceCalculation(inputCloud_) <=3.6)
+        	on_belt = true;
+        else
+        	on_belt = false;
+        double control_signal;
+        if(on_belt){
+  	      double error = reference - boxDistanceCalculation(inputCloud_);
+  	      if(abs(error)<0.1){
+  	        error = 0;
+  	        control_signal = 0.0;
+  	        if(do_once){
+  	          applyForce(control_signal);
+  	          do_once = false;
+  	        }
+            action.ACTION = action.MOVING_BOX_ENDED;
+  	      }
+  	      else if(error > 0){
+  	       control_signal = - c_signal;
+  	       applyForce(control_signal);
+  	       do_once = true;
 
-	      }
-	      else if(error > 0){
-	       control_signal = - c_signal;
-	       applyForce(control_signal);
-	       do_once = true;
+  	      }
+  	      else if(error < 0){
+  	       control_signal = c_signal;
+  	       applyForce(control_signal);
+  	       do_once = true;
+  	      }
+  	      cout<<error<<" "<<control_signal<<endl;
+  	    }else{
+  	    	applyForce(0.0);
+  	    	cout<<" box is not on the belt"<<endl;
+          action.ACTION = action.BOX_FALLS;
 
-	      }
-	      else if(error < 0){
-	       control_signal = c_signal;
-	       applyForce(control_signal);
-	       do_once = true;
-	      }
-	      cout<<error<<" "<<control_signal<<endl;
-	    }else{
-	    	applyForce(0);
-	    	cout<<" box is not on the belt"<<endl;
-	    }
- 
+  	    }
+        actionPublisher_.publish(action);
+      }
+      
+      state_available = false;
       pc_available=false;
     }
   }
@@ -105,7 +133,7 @@ namespace aliengo_delivery {
       mean += distance ;
     }
     mean = mean/size;
-    cout<<"Distance is "<<mean<<endl;
+    //cout<<"Distance is "<<mean<<endl;
 		return mean;
 	}
   void BeltControl::applyForce(double x_){ 

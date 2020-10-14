@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
- 
-<launch>
-  
-    <node pkg="traversability_filter" type="roughness_calculation" respawn="true" name="roughness_calculation" output="screen">	        
- 	<param name="max_roughness" type="double" value="0.05" /> <!--0.002   -->
-	 <param name="circle_radius" type="double" value="0.12" />
-</node>
-</launch>

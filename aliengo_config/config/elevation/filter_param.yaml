@@ -1,0 +1,11 @@
+filter:
+ min_x: -5.0 #bounding box #-5.0
+ min_y: -5.0
+ min_z: -5.0
+ max_x: 5.0
+ max_y: 5.0
+ max_z: 5.0
+ leaf_size: 0.05  #resolution
+ rate: 5
+ is_remove_point: false #remove points
+ mean_k: 200  # number of clustered point to be left out (if remove point is on)

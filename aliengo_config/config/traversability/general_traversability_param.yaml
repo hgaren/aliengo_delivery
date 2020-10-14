@@ -1,0 +1,20 @@
+traversability:
+ fixed_step_traversability: 0.4 #pre-defined step traversability index
+ rate: 5
+ weight_roughness: 0.5
+ weight_slope: 0.5
+ pass_alpha: 0.0
+estimation:
+  min_error_l: 0.1 #sensor model
+  max_error_l: 0.6
+  min_length: 1
+  max_length: 6
+  error_L: 0.2
+  length_L: 4
+  risk_factor: -2.0  #risk evaluation
+  urgency_factor: 0.0
+  varience_incremental: 0.00025
+  global_map/width: 10.0 #global map specs
+  global_map/length: 10.0
+  global_map/resolution: 0.05
+  rate: 6

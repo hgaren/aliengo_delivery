@@ -1,0 +1,8 @@
+<launch>
+ 
+  <node pkg="grid_map_visualization" type="grid_map_visualization" name="slope_map_visualization" output="screen">
+   <param name="grid_map_topic" value="/slope_grid_map" />
+    <rosparam command="load" file="$(find grid_map_demos)/config/visualization/raw.yaml" />
+  </node>
+    <node pkg="grid_map_demos" type="slope_demo" name="slope_demo" output="screen"/>
+</launch>

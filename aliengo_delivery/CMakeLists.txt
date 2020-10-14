@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   sensor_msgs
   gazebo_msgs
+aliengo_state_mach
 )
 include_directories(  ${catkin_INCLUDE_DIRS}  ${PCL_INCLUDE_DIRS} )
 link_directories(${PCL_LIBRARY_DIRS})

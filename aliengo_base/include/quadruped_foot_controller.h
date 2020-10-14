@@ -65,6 +65,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "aliengo_msgs/MotorCmd.h"
 #include "aliengo_msgs/MotorState.h"
 #include "aliengo_msgs/Foots.h"
+#include "aliengo_msgs/GaitInfo.h"
 
 class QuadrupedFootController
 {
@@ -75,7 +76,7 @@ class QuadrupedFootController
     ros::Subscriber cmd_pose_subscriber_;
     ros::Subscriber odom_subscriber_;
     ros::Subscriber foot_subscriber_;
-
+    ros::Subscriber gait_subscriber_;
     ros::Publisher velocities_publisher_;
     ros::Publisher foot_publisher_;
 
@@ -145,12 +146,12 @@ class QuadrupedFootController
     void moveAllPosition(float* targetPos, double duration);
     void odomCallback_(const nav_msgs::Odometry::ConstPtr& msg);
     void footCallback_(const aliengo_msgs::Foots& foot_msg);
+    void gaitCallback_(const aliengo_msgs::GaitInfo& gait_msg);
     geometry_msgs::Point circleCenter(geometry::Transformation A, geometry::Transformation B, geometry::Transformation C);
 
     aliengo_msgs::LowCmd lowCmd;
     aliengo_msgs::LowState lowState;
     aliengo_msgs::Foots foots;
-
     visualization_msgs::Marker createMarker(geometry::Transformation foot_pos, int id, std::string frame_id);
 
     public:

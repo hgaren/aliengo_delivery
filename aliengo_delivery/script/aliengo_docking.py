@@ -68,10 +68,13 @@ if __name__=="__main__":
     now = rospy.Time.now().to_sec()
     sec = now - starting
     print( sec )
-    if(sec<3):
-      key = 'w'#s
-    if(sec>=3):
+    if(sec<1):
+      key = 'f' 
+    if(sec>=1 and sec<2):
       key = ' '
+    if(sec>2):
+      key = '\x03'
+      print "finished"
     if key == 'w':
       twist.linear.x = control_speed ; twist.linear.y = 0 ;  twist.angular.z = 0
       q = quaternion_from_euler(0, 0, 0)
@@ -112,40 +115,19 @@ if __name__=="__main__":
      odom.pose.pose.orientation.z = q[2]
      odom.pose.pose.orientation.w = q[3]
      is_twist = True; is_odom = False
+
     elif key == 'r':
-      odom.pose.pose.position.z = odom.pose.pose.position.z+0.2 
+      odom.pose.pose.position.z = odom.pose.pose.position.z+0.05 
       print "z: " + str( odom.pose.pose.position.z)
       is_twist = False; is_odom = True
 
 
     elif key == 'f':
-      odom.pose.pose.position.z = odom.pose.pose.position.z-0.2
+      odom.pose.pose.position.z = odom.pose.pose.position.z-0.05
       print "z: " + str( odom.pose.pose.position.z)
       is_twist = False; is_odom = True
 
-    elif key == 'y':
-      pitch=pitch+0.05
-      if(pitch>3.1):
-        pitch=3.1
-      q = quaternion_from_euler(roll, pitch,yaw)
-      odom.pose.pose.orientation.x = q[0]
-      odom.pose.pose.orientation.y = q[1]
-      odom.pose.pose.orientation.z = q[2]
-      odom.pose.pose.orientation.w = q[3]
-      print "pitch: " + str(pitch)
-      is_twist = False; is_odom = True
-
-    elif key == 'h':
-      pitch=pitch-0.05
-      if(pitch<-3.1):
-        pitch=-3.1
-      q = quaternion_from_euler(roll, pitch,yaw)
-      odom.pose.pose.orientation.x = q[0]
-      odom.pose.pose.orientation.y = q[1]
-      odom.pose.pose.orientation.z = q[2]
-      odom.pose.pose.orientation.w = q[3]
-      print "pitch: " + str(pitch)
-      is_twist = False; is_odom = True
+  
     elif key == ' ':
      twist.linear.x = 0 ; twist.linear.y = 0 ;  twist.angular.z = 0
      q = quaternion_from_euler(0, 0, 0)

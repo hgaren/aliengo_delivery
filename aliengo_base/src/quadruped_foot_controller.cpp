@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "aliengo_msgs/MotorCmd.h"
 #include "aliengo_msgs/MotorState.h"
 #include "aliengo_msgs/Foots.h"
+#include "aliengo_msgs/GaitInfo.h"
 #include "geometry_msgs/Point.h"
 
 QuadrupedFootController::QuadrupedFootController(const ros::NodeHandle &node_handle,
@@ -76,6 +77,7 @@ QuadrupedFootController::QuadrupedFootController(const ros::NodeHandle &node_han
     cmd_vel_subscriber_ = nh_.subscribe("cmd_vel/smooth", 1, &QuadrupedFootController::cmdVelCallback_, this);
     cmd_pose_subscriber_ = nh_.subscribe("/aliengo/ref_odom", 1, &QuadrupedFootController::cmdPoseCallback_, this);
     foot_subscriber_ = nh_.subscribe("/aliengo/ref_foot", 1, &QuadrupedFootController::footCallback_, this);
+    gait_subscriber_ = nh_.subscribe("/aliengo/gait_info", 1, &QuadrupedFootController::gaitCallback_, this);
 
 
 
@@ -155,10 +157,7 @@ QuadrupedFootController::QuadrupedFootController(const ros::NodeHandle &node_han
 
 void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
 {
-    float target_joint_positions[12];
-    //calculates joint positions according to ref orientation and ref velocity
-    body_controller_.poseCommand(target_foot_positions_, req_pose_);
-    leg_controller_.velocityCommand(target_foot_positions_, req_vel_);
+   
     // foot pose reference mode
     if(linear_config){
        gait_config_.swing_height = 0.14;
@@ -168,21 +167,24 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
        cout <<"linear"<<endl;
     }
     else if(angular_config){
-       gait_config_.swing_height = 0.14;
+       gait_config_.swing_height = 0.05;
        gait_config_.stance_duration = 0.4;
        gait_config_.nominal_height =  0.3;
        base_.setGaitConfig(gait_config_);
        cout<<"angular"<<endl;
     }
     else if(hybrid_config){
-       gait_config_.swing_height = 0.14;
+       gait_config_.swing_height = 0.1;
        gait_config_.stance_duration = 0.4;
        gait_config_.nominal_height =  0.3;
        base_.setGaitConfig(gait_config_);
        cout<<"hybrid"<<endl;
     }
- 
- 
+    float target_joint_positions[12];
+
+  	//calculates joint positions according to ref orientation and ref velocity
+    body_controller_.poseCommand(target_foot_positions_, req_pose_);
+    leg_controller_.velocityCommand(target_foot_positions_, req_vel_);
 
     if(!walking_available && foot_ref_available){
     	int ref_id = 0;
@@ -233,7 +235,7 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
  	 	base_.setGaitConfig(gait_config_);
     }
 
-
+    
 
 
     //converts foot pose to joint angles
@@ -260,7 +262,7 @@ void QuadrupedFootController::cmdVelCallback_(const geometry_msgs::Twist::ConstP
 	    foot_ref_available = false;
 	}
     if(req_vel_.linear.x != 0.0){
-        linear_config = true;
+        linear_config = false;
         angular_config = false;
         hybrid_config = false;
     }
@@ -286,7 +288,27 @@ void QuadrupedFootController::cmdVelCallback_(const geometry_msgs::Twist::ConstP
     foot_ref_available = true;
 
 }
- 
+ void QuadrupedFootController::gaitCallback_(const aliengo_msgs::GaitInfo& gait_msg)
+{
+	if(gait_msg.max_l_x != 0.0)	
+		gait_config_.max_linear_velocity_x = gait_msg.max_l_x;
+	if(gait_msg.max_l_y != 0.0)	
+		gait_config_.max_linear_velocity_y = gait_msg.max_l_y;
+	if(gait_msg.max_a_z != 0.0)	
+		gait_config_.max_angular_velocity_z = gait_msg.max_a_z;
+	if(gait_msg.com_x_t != 0.0)	
+		gait_config_.com_x_translation = gait_msg.com_x_t;
+	if(gait_msg.com_y_t != 0.0)	
+		gait_config_.com_y_translation = gait_msg.com_y_t;
+	if(gait_msg.swing_h != 0.0)	
+		gait_config_.swing_height = gait_msg.swing_h;
+	if(gait_msg.stance_d != 0.0)	
+		gait_config_.stance_duration = gait_msg.stance_d;
+	if(gait_msg.nominal_h != 0.0)	
+		gait_config_.nominal_height = gait_msg.nominal_h;
+	cout<<"stance duration: "<<gait_config_.stance_duration <<"swing height: "<< gait_config_.swing_height<<endl;
+	base_.setGaitConfig(gait_config_);
+}
 
 void QuadrupedFootController::cmdPoseCallback_(const nav_msgs::Odometry::ConstPtr& msg)
 {

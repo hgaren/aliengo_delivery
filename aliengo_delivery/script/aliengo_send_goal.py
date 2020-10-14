@@ -17,9 +17,9 @@ def movebase_client():
     goal.target_pose.header.frame_id = "odom"
     goal.target_pose.header.stamp = rospy.Time.now()
     
-    goal.target_pose.pose.position.x = -5.151807
-    goal.target_pose.pose.position.y = 7.144839
-    q = quaternion_from_euler(0, 0, -1.542368)
+    goal.target_pose.pose.position.x = -5.151546
+    goal.target_pose.pose.position.y = 8.126664
+    q = quaternion_from_euler(0, 0, 1.582429)
     goal.target_pose.pose.orientation.x = q[0]
     goal.target_pose.pose.orientation.y = q[1]
     goal.target_pose.pose.orientation.z = q[2]

@@ -4,7 +4,7 @@
 
    
    <node pkg="aliengo_delivery" type="belt_control_node" respawn="false" name="belt_control_node" output= "screen">
-       		<param name="box_distance" type="double" value="1"/>
+       		<param name="box_distance" type="double" value="3"/>
        		<param name="control_signal" type="double" value="10"/>
        		<param name="apply_force" type="bool" value="true"/>
     </node>

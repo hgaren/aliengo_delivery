@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+	
+	<arg name="input_cloud_topic" default="/realsense/depth/points"/><!--/realsense/depth/points-->
+	<arg name="input_odom_topic" default="/aliengo/odometry"/>
+	<arg name="fixed_frame_id" default="odom"/> 
+	<arg name="use_mapping" default="true" />
+	<arg name="use_fake_odom" default="false" />
+
+	<node pkg="traversability_stable_filter" type="fake_odometry.py" respawn="true" name="fake_odometry_node" if="$(eval  use_fake_odom)"/>
+
+     
+        <!--cloud filter-->
+	<node pkg="traversability_stable_filter" type="cloud_filter_node" respawn="true" name="cloud_filter_node"  output= "screen">
+	 	<rosparam file="$(find aliengo_config)/config/elevation/filter_param.yaml" />
+		<param name="filter/input_cloud_topic" type="string" value="$(arg input_cloud_topic)"/>
+		<param name="filter/output_cloud_topic" type="string" value="/cloud/filtered"/>
+		<param name="filter/fixed_frame_id" type="string" value="$(arg fixed_frame_id)"/>
+	</node>
+ 
+
+
+       <!--elevation filter-->
+	<node pkg="traversability_stable_filter" type="elevation_filter_node" respawn="true" name="elevation_filter_node" output= "screen" >
+		<param name="elevation/fixed_frame_id" type="string" value="$(arg fixed_frame_id)"/>
+
+		<param name="elevation/output_gridmap_topic" type="string" value="/elevation_gridmap"/>
+		<param name="elevation/output_cloud_topic" type="string" value="/bounded_map"/>
+             
+		<param name="elevation/input_odom_topic" type="string" value="$(arg input_odom_topic)" />
+		<!-- use filtered cloud -->
+		<param name="elevation/input_cloud_topic" type="string" value="/cloud/filtered"/>
+		<rosparam command="load" file="$(find aliengo_config)/config/elevation/elevation_param.yaml" />
+	</node>
+
+       <!--elevation grid map visualization-->
+	<node pkg="grid_map_visualization" type="grid_map_visualization" name="elevation_map_visualization">
+		<param name="grid_map_topic" value="/elevation_gridmap" />
+		<rosparam command="load" file="$(find aliengo_config)/config/elevation/grid_visualization/elevation_viz.yaml" />
+	</node>
+
+  	<!--probabilistic elevation mapping-->
+	<group if="$(arg use_mapping)">
+		<node pkg="traversability_stable_filter" type="probabilistic_mapping_node" respawn="false" name="probabilistic_mapping" output= "screen">	        
+			<rosparam file="$(find aliengo_config)/config/elevation/probabilistic_mapping_param.yaml" />	        
+		 	<param name="probabilistic_mapping/input_odom_topic" type="string" value="$(arg input_odom_topic)" />
+		</node>
+		<node pkg="grid_map_visualization" type="grid_map_visualization" name="mapping_viz" >
+			<param name="grid_map_topic" value="/elevation_mapping_gridmap/global" />
+			<rosparam command="load" file="$(find aliengo_config)/config/elevation/grid_visualization/probabilistic_viz.yaml" />
+		</node>
+	</group>
+
+
+</launch>

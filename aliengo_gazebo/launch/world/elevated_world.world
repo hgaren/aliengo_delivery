@@ -26,8 +26,8 @@
           <surface>
             <friction>
               <ode>
-                <mu>100</mu>
-                <mu2>50</mu2>
+                <mu>200</mu>
+                <mu2>100</mu2>
               </ode>
               <torsional>
                 <ode/>
@@ -121,10 +121,10 @@
       <cast_shadows>1</cast_shadows>
     </light>
     <state world_name='default'>
-      <sim_time>1183 136000000</sim_time>
-      <real_time>488 964272319</real_time>
-      <wall_time>1598342838 389769783</wall_time>
-      <iterations>469896</iterations>
+      <sim_time>1307 842000000</sim_time>
+      <real_time>125 72049999</real_time>
+      <wall_time>1602233342 630597393</wall_time>
+      <iterations>124706</iterations>
       <model name='brick_box_3x1x3'>
         <pose frame=''>2.00888 -1.91352 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -146,10 +146,10 @@
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone'>
-        <pose frame=''>3.37053 4.56885 0 0 -0 0</pose>
+        <pose frame=''>3.37053 4.56885 -1.43923 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>3.37053 4.56885 1.5 0 -0 0</pose>
+          <pose frame=''>3.37053 4.56885 0.06077 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -236,60 +236,60 @@
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone_clone'>
-        <pose frame=''>3.96557 2.73559 0 0 0 -1.56214</pose>
+        <pose frame=''>3.96684 2.58857 0 0 0 -1.56214</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>3.96557 2.73559 1.5 0 0 -1.56214</pose>
+          <pose frame=''>3.96684 2.58857 1.5 0 0 -1.56214</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone_clone_0'>
-        <pose frame=''>0.378678 4.56616 -0 0 -0 0</pose>
+        <pose frame=''>0.378678 4.56616 -1.42109 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>0.378678 4.56616 1.5 0 -0 0</pose>
+          <pose frame=''>0.378678 4.56616 0.078914 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone_clone_1'>
-        <pose frame=''>3.38355 5.4904 0 0 -0 0</pose>
+        <pose frame=''>3.38355 5.4904 -1.45384 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>3.38355 5.4904 1.5 0 -0 0</pose>
+          <pose frame=''>3.38355 5.4904 0.046163 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone_clone_1_clone'>
-        <pose frame=''>0.42275 5.5145 0 0 -0 0</pose>
+        <pose frame=''>0.42275 5.5145 -1.42314 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>0.42275 5.5145 1.5 0 -0 0</pose>
+          <pose frame=''>0.42275 5.5145 0.076862 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone_clone_1_clone_0'>
-        <pose frame=''>3.40312 6.46423 0 0 -0 0</pose>
+        <pose frame=''>3.40312 6.46423 -1.44714 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>3.40312 6.46423 1.5 0 -0 0</pose>
+          <pose frame=''>3.40312 6.46423 0.052861 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='brick_box_3x1x3_clone_clone_clone_1_clone_0_clone'>
-        <pose frame=''>0.425393 6.49113 0 0 -0 0</pose>
+        <pose frame=''>0.425393 6.49113 -1.45636 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='chassis'>
-          <pose frame=''>0.425393 6.49113 1.5 0 -0 0</pose>
+          <pose frame=''>0.425393 6.49113 0.043635 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -376,10 +376,10 @@
         </link>
       </model>
       <model name='stairs_v3'>
-        <pose frame=''>-0.108668 1.21613 0.079887 0 0 -1.57064</pose>
+        <pose frame=''>-1.11812 1.11007 0 0 0 -1.53915</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-0.108668 1.21613 0.079887 0 0 -1.57064</pose>
+          <pose frame=''>-1.11812 1.11007 0 0 0 -1.53915</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -400,7 +400,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-11.7576 15.2711 23.2603 -0 1.0538 -1.37981</pose>
+        <pose frame=''>-15.524 6.83042 20.047 0 0.993797 -0.655805</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -1215,48 +1215,6 @@
       </link>
       <pose frame=''>6.34136 2.91332 0 0 0 -1.56214</pose>
     </model>
-    <model name='stairs_v3'>
-      <static>1</static>
-      <pose frame=''>-0.108578 0.638493 0 0 -0 0</pose>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://stairs_v3/meshes/stairs_v3.dae</uri>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>100</mu>
-                <mu2>50</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='visual'>
-          <cast_shadows>1</cast_shadows>
-          <geometry>
-            <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://stairs_v3/meshes/stairs_v3.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-    </model>
     <model name='brick_box_3x1x3_clone_clone_clone_1'>
       <static>1</static>
       <link name='chassis'>
@@ -1526,6 +1484,51 @@
         <kinematic>0</kinematic>
       </link>
       <pose frame=''>-5.59058 10.2309 0 0 0 -3.1393</pose>
+    </model>
+    <audio>
+      <device>default</device>
+    </audio>
+    <model name='stairs_v3'>
+      <static>1</static>
+      <pose frame=''>0.733776 -0.72251 0 0 -0 0</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>1 1.5 0.5</scale>
+              <uri>model://stairs_v3/meshes/stairs_v3.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>1</cast_shadows>
+          <geometry>
+            <mesh>
+              <scale>1 1.5 0.5</scale>
+              <uri>model://stairs_v3/meshes/stairs_v3.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
     </model>
   </world>
 </sdf>

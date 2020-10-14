@@ -1,0 +1,5 @@
+roughness:
+ roughness_radius_search: 0.12
+ roughness_debug: false
+ rate: 2.5
+ pass_alpha: 0.2

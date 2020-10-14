@@ -18,11 +18,11 @@ static:
 
 obstacles_laser:
     observation_sources:  point_cloud_sensor  
-    point_cloud_sensor: {sensor_frame: laser_link, clearing: true, topic: /aliengo/cloud , data_type: PointCloud2, marking: true,  min_obstacle_height: 0.3 ,max_obstacle_height: 0.7 }
+    point_cloud_sensor: {sensor_frame: laser_link, clearing: true, topic: /aliengo/cloud1 , data_type: PointCloud2, marking: true,  min_obstacle_height: 0.3 ,max_obstacle_height: 0.7 }
     laser: {data_type: LaserScan, clearing: true, marking: true, topic: scan1}
 obstacles_laser_local:
     observation_sources:  point_cloud_sensor  
-    point_cloud_sensor: {sensor_frame: laser_link, clearing: true, topic: /aliengo/cloud , data_type: PointCloud2, marking: true,  min_obstacle_height: 0.3 ,max_obstacle_height: 0.7 }
+    point_cloud_sensor: {sensor_frame: laser_link, clearing: true, topic: /aliengo/cloud1 , data_type: PointCloud2, marking: true,  min_obstacle_height: 0.3 ,max_obstacle_height: 0.7 }
     laser: {data_type: LaserScan, clearing: true, marking: true, topic: scan1}
 
 grid_map_layer:
@@ -30,6 +30,6 @@ grid_map_layer:
     point_cloud_sensor: {sensor_frame: laser_link, clearing: true, topic: /traversable_map_visualization/traversability_points1, data_type: PointCloud2, marking: true,  min_obstacle_height: 0.0 , max_obstacle_height: 0.5 }
     laser: {data_type: LaserScan, clearing: true, marking: true, topic: scan1}
 inflation:
-    inflation_radius: 0.4
+    inflation_radius: 0.2
 
 

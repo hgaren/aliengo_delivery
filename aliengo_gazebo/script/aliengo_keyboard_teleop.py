@@ -33,7 +33,7 @@ import rospy
 from geometry_msgs.msg import Twist
 from tf.transformations import quaternion_from_euler  
 from nav_msgs.msg import Odometry
-from aliengo_msgs.msg import Foot, Foots
+from aliengo_msgs.msg import Foot, Foots, GaitInfo
 import sys, select, termios, tty
 
 msg = """
@@ -48,6 +48,7 @@ t/g : +/- roll pose
 y/h : +/- pitch pose
 u/j : =/- yaw pose
 m : change individual foot pose 
+c : change gait config dynamically
 z/x : increase/decrease axis speed
 space key: force stop
 CTRL-C to quit
@@ -78,6 +79,7 @@ if __name__=="__main__":
     pub = rospy.Publisher('/cmd_vel',Twist, queue_size=10)
     pub1 = rospy.Publisher('/aliengo/ref_odom', Odometry, queue_size=10)
     pub2 = rospy.Publisher('/aliengo/ref_foot', Foots, queue_size=10)
+    pub3 = rospy.Publisher('/aliengo/gait_info', GaitInfo, queue_size=10)
 
     x = 0
     th = 0
@@ -169,7 +171,7 @@ if __name__=="__main__":
                is_twist = True; is_odom = False
 
             elif key == 'z':
-               control_speed = control_speed+ 0.2
+               control_speed = control_speed+ 0.1
                q = quaternion_from_euler(0, 0, 0)
                odom.pose.pose.orientation.x = q[0]
                odom.pose.pose.orientation.y = q[1]
@@ -179,14 +181,14 @@ if __name__=="__main__":
                   control_speed=2
                print "speed: " + str(control_speed)
             elif key == 'x':
-               control_speed=control_speed -0.2
+               control_speed=control_speed -0.1
                q = quaternion_from_euler(0, 0, 0)
                odom.pose.pose.orientation.x = q[0]
                odom.pose.pose.orientation.y = q[1]
                odom.pose.pose.orientation.z = q[2]
                odom.pose.pose.orientation.w = q[3]
-               if control_speed < 0.2 : 
-                  control_speed=0.2
+               if control_speed < 0.1 : 
+                  control_speed=0.05
                print "speed: "+ str(control_speed)
             elif key == ' ':
                 twist.linear.y = 0 ; twist.linear.x = 0 ;  twist.angular.z = 0
@@ -306,10 +308,11 @@ if __name__=="__main__":
               '''
               foots.foot.append(f)
 
-              id_ = input("Foot id 0-1-2-3: ")
+              id_ = input("Exit e, Foot id 0-1-2-3: ")
               x_ = input("X translation: ")
               y_ = input("Y translation: ")
               z_ = input("Z translation: ")
+
               print "foot id: " + str(id_) + " Translation X-Y-Z: "  + str(x_) + ","+ str(y_) + ","+ str(z_) 
               
               foots.foot[0].id = id_
@@ -321,12 +324,40 @@ if __name__=="__main__":
               
             elif (key == '\x03'):
                 break
+            elif key == 'c': 
+              newkey = input("max_l_x 0 , max_l_y 1, max_a_z 2 , com_x_t 3, com_y_t 4, swing_h 5, stance_d 6, nominal_h 7: ") 
+              gaitinfo = GaitInfo()
+              if(newkey == 0):
+                val_ = input("max_l_x: ")
+                gaitinfo.max_l_x = val_
+              if(newkey == 1):
+                val_ = input("max_l_y: ")
+                gaitinfo.max_l_y = val_
+              if(newkey == 2):
+                val_ = input("max_a_z: ")
+                gaitinfo.max_a_z = val_
+              if(newkey == 3):
+                val_ = input("com_x_t: ") 
+                gaitinfo.com_x_t = val_                           
+              if(newkey == 4):
+                val_ = input("com_y_t: ")
+                gaitinfo.com_y_t = val_
+              if(newkey == 5):
+                val_ = input("swing_h: ")
+                gaitinfo.swing_h = val_
+              if(newkey == 6):
+                val_ = input("stance_d: ")
+                gaitinfo.stance_d = val_
+              if(newkey == 7):
+                val_ = input("nominal_h: ")
+                gaitinfo.nominal_h = val_
+              pub3.publish(gaitinfo)
             if (is_twist):
               pub.publish(twist)
             if (is_odom):
               pub1.publish(odom)
 
-
+ 
     finally:
         twist = Twist()
         twist.linear.x = 0;  twist.linear.y = 0 ;  twist.angular.z = 0

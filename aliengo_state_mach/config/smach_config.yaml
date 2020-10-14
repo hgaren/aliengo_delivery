@@ -1,0 +1,20 @@
+RoverSmach:
+    sub_topics:
+        sub_waypoint: '/gps_waypoint_handler/status'        
+        sub_gps: '/gps/fix'
+        sub_imu: '/imu/data'
+        sub_encoder: '/odometry/wheel'
+        sub_image_detect: '/px_coordinates'
+        sub_image_reach: '/image_reach_topic'
+
+    pub_topics:
+        pub_rover_state: '/rover_state_topic'
+    
+    timeouts:
+        initialiseTimeout: 600
+        readyTimeout: 600000
+        findImageTimeout: 600000
+        reachImageTimeout: 600000
+
+    attributes:
+        movementAttribute: 1         #1 for search image while navigating to waypoint, 0 for navigate to waypoint then search for image.	

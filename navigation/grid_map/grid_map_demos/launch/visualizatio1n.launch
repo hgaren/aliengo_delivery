@@ -1,0 +1,8 @@
+<launch>
+ 
+  <node pkg="grid_map_visualization" type="grid_map_visualization" name="deneme_visualization" output="screen">
+    <param name="grid_map_topic" value="grid_map_deneme" />
+    <rosparam command="load" file="$(find grid_map_demos)/config/visualization/raw.yaml" />
+  </node>
+
+</launch>
