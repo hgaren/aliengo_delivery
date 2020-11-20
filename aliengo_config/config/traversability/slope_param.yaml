@@ -1,7 +1,7 @@
 slope:
- slope_radius_search:  0.15 #0.25
+ slope_radius_search:  0.2 #0.25
  slope_max_threshold: 170
  slope_min_threshold: 5
  slope_debug: false
  pass_alpha: 0.3
- rate: 3 
+ rate: 5 

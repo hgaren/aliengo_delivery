@@ -1,9 +1,9 @@
 elevation:
  output_marker: "/marker_area"
  distance_to_area_center: 2 #2
- resolution: 0.05
+ resolution: 0.1
  length_x: 3.0
  length_y: 3.0
  threshold: 0.4
- rate: 6.0
+ rate: 5.0
 

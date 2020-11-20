@@ -7,10 +7,10 @@ NavfnROS:
 
 EBandPlannerROS:
  xy_goal_tolerance: 0.2
- yaw_goal_tolerance: 0.2
+ yaw_goal_tolerance: 0.6
  differential_drive: true
- max_vel_lin: 0.5
- max_vel_th:  0.5
+ max_vel_lin: 0.3
+ max_vel_th:  1 #0.8
  min_vel_lin: 0
  min_vel_th: 0
- max_acceleration: 0.5
+ max_acceleration: 0.3

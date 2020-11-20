@@ -10,7 +10,7 @@
     <arg name="user_debug" default="false"/>
     
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find aliengo_gazebo)/launch/world/elevated_world.world"/>
+        <arg name="world_name" value="$(find aliengo_gazebo)/launch/world/elevated_world_v2.world"/>
         <arg name="debug" value="$(arg debug)"/>
         <arg name="gui" value="$(arg gui)"/>
         <arg name="paused" value="$(arg paused)"/>
@@ -26,7 +26,7 @@
 <!--GAREN ADDS END-->
      
     <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
-          args="-urdf -x -4.418915 -y 4.081438 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/>
+          args="-urdf -x -4.4 -y 3.5 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/> <!--y: 4.081438 -->
      
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner1" respawn="false" output="screen"
           args="-urdf -x -3.315299  -y 8.041826 -z 0.05  -model belt -file '$(find aliengo_gazebo)/launch/world/moving_ground.urdf' -unpause"/>
@@ -58,6 +58,9 @@
 
 	<!--Champ-Garen Legged Controller with Foot Placement -->
   	<!--include file="$(find aliengo_config)/launch/foot_planner.launch"/-->
+  	<include file="$(find aliengo_delivery)/launch/belt_control.launch"/>
+  	<include file="$(find aliengo_navigation)/launch/move_base.launch"/>
+
 	<include file="$(find aliengo_config)/launch/foot_awareness.launch"/>
 
 <!--Champ-Garen Legged Controller without Foot Placement -->

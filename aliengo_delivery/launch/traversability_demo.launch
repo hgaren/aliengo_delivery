@@ -6,7 +6,7 @@
 	<arg name="input_gridmap_topic" default="/elevation_mapping_gridmap/local" if="$(arg use_mapping)"/> 
 	<arg name="input_gridmap_topic" default="/elevation_gridmap" unless="$(arg use_mapping)"/>  
 	<arg name="critical_max_slope" default="25"/> 
-	<arg name="critical_max_roughness" default="0.05" />
+	<arg name="critical_max_roughness" default="0.03" />
 	<arg name="critical_max_traversability" default="0.2" />
 	<arg name="slope_on" default="true" />
 	<arg name="roughness_on" default="true"/>

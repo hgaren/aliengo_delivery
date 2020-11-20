@@ -45,8 +45,8 @@
 			<rosparam file="$(find aliengo_config)/config/elevation/probabilistic_mapping_param.yaml" />	        
 		 	<param name="probabilistic_mapping/input_odom_topic" type="string" value="$(arg input_odom_topic)" />
 		</node>
-		<node pkg="grid_map_visualization" type="grid_map_visualization" name="mapping_viz" >
-			<param name="grid_map_topic" value="/elevation_mapping_gridmap/global" />
+		<node pkg="grid_map_visualization" type="grid_map_visualization" name="mapping_viz" respawn="true" >
+			<param name="grid_map_topic" value="/elevation_mapping_gridmap/local" />
 			<rosparam command="load" file="$(find aliengo_config)/config/elevation/grid_visualization/probabilistic_viz.yaml" />
 		</node>
 	</group>

@@ -170,21 +170,21 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
     if(linear_config){
        gait_config_.swing_height = 0.14;
        gait_config_.stance_duration = 0.4;
-       gait_config_.nominal_height =   0.3;
+       gait_config_.nominal_height =   0.35;
       // base_.setGaitConfig(gait_config_);
       // cout <<"linear"<<endl;
     }
     else if(angular_config){
        gait_config_.swing_height = 0.05;
        gait_config_.stance_duration = 0.4;
-       gait_config_.nominal_height =  0.3;
+       gait_config_.nominal_height =  0.35;
        base_.setGaitConfig(gait_config_);
        cout<<"angular"<<endl;
     }
     else if(hybrid_config){
        gait_config_.swing_height = 0.1;
        gait_config_.stance_duration = 0.4;
-       gait_config_.nominal_height =  0.3;
+       gait_config_.nominal_height =  0.35;
        base_.setGaitConfig(gait_config_);
        cout<<"hybrid"<<endl;
     }
@@ -214,22 +214,39 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
 
     if(gridmap_available && odom_available ){
       geometry::Transformation new_foot_positions_[4];
+      geometry::Transformation original_foot_positions_[4];
+
       bool no_warning = true;
+      bool contact_none =  false;
       for (int id=0; id<4; id++ ){
         grid_map::Position position;
         grid_map::Position avFootInCircle;
         avFootInCircle.x() = NAN;
         avFootInCircle.y() = NAN;
-
+       
 
         new_foot_positions_[id].X() = current_foot_positions_[id].X()+target_foot_positions_[id].X();
         new_foot_positions_[id].Y() = current_foot_positions_[id].Y()+target_foot_positions_[id].Y();
         new_foot_positions_[id].Z() = target_foot_positions_[id].Z();
         
+        original_foot_positions_[id].X() = current_foot_positions_[id].X()+target_foot_positions_[id].X();
+        original_foot_positions_[id].Y() = current_foot_positions_[id].Y()+target_foot_positions_[id].Y();
+        original_foot_positions_[id].Z() = target_foot_positions_[id].Z();
+
         position.x()=new_foot_positions_[id].X()+ odom_.pose.pose.position.x;
         position.y()=new_foot_positions_[id].Y() + odom_.pose.pose.position.y;
 
-        if(grid_map::checkIfPositionWithinMap(position,inputGridMap_.getLength(),inputGridMap_.getPosition())){
+        double roll,pitch,yaw;
+        tf::Quaternion q(
+        odom_.pose.pose.orientation.x,
+        odom_.pose.pose.orientation.y,
+        odom_.pose.pose.orientation.z,
+        odom_.pose.pose.orientation.w);
+
+        tf::Matrix3x3 m(q);
+        m.getRPY(roll, pitch, yaw);
+
+         if(grid_map::checkIfPositionWithinMap(position,inputGridMap_.getLength(),inputGridMap_.getPosition())){
           grid_map::Index index;
           inputGridMap_.getIndex(position,index);    
 
@@ -239,15 +256,24 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
           {          
             no_warning = false;
             cout<<id<<" WARNING"<<endl;
+            
+
             double radius = 0.05;
-            position.x() = position.x() + 0.05;
+            position.x() = position.x() + 2*cos(yaw);
+            position.y() = position.y() + 2*sin(yaw);
+
+
             if (target_foot_positions_[id].Z()>-0.29){
-              stabilizeCoM_(id,current_foot_positions_);  
-              target_foot_positions_[id].Translate(0.0,0,  inputGridMap_.at("elevation", index)+0.05);
+              //stabilizeCoM_(id,current_foot_positions_);  
+              //cout<<"elevation: "<<inputGridMap_.at("elevation", index)<<endl;
+              new_foot_positions_[id].Z() += 0.05;
+              //target_foot_positions_[id].Z() = -0.20;
+              contact_none = true;
             }
             else
-              target_foot_positions_[id].Translate(0.0,0, 0.0);
+              contact_none = false;
 
+           
             while(isnan(avFootInCircle.x()) && isnan(avFootInCircle.y())){
               for (grid_map::CircleIterator circleIt(inputGridMap_, position, radius); !circleIt.isPastEnd(); ++circleIt) {
                 if (isnan(inputGridMap_.at("traversability", *circleIt)))
@@ -255,7 +281,14 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
                 if(inputGridMap_.at("traversability", *circleIt) >= 0.29){
                   inputGridMap_.getPosition(*circleIt, avFootInCircle);
                   new_foot_positions_[id].X() = avFootInCircle.x() -  odom_.pose.pose.position.x ;
-                  new_foot_positions_[id].Y() = avFootInCircle.y() -  odom_.pose.pose.position.y;
+                  //new_foot_positions_[id].Y() = avFootInCircle.y() -  odom_.pose.pose.position.y;
+          
+
+                 //if(contact_none){
+                   // new_foot_positions_[id].X() = original_foot_positions_[id].X();
+                  // new_foot_positions_[id].X() = (new_foot_positions_[id].X()+original_foot_positions_[id].X())/2;
+                // }
+                 
                 }
               }
               radius += 0.05;
@@ -263,22 +296,25 @@ void QuadrupedFootController::controlLoop_(const ros::TimerEvent& event)
                 cout<<"could not find proper foot placement"<<endl;
                 break;
               }
-            }
+            } 
+
+            
+            
           }
         }
 
         target_foot_positions_[id].X() = new_foot_positions_[id].X() - current_foot_positions_[id].X();
         target_foot_positions_[id].Y() = new_foot_positions_[id].Y() - current_foot_positions_[id].Y();
-      
-
+        target_foot_positions_[id].Z() = new_foot_positions_[id].Z();
+        //new_foot_positions_[id].X() = current_foot_positions_[id].X()+target_foot_positions_[id].X();
+        //new_foot_positions_[id].Y() = current_foot_positions_[id].Y()+target_foot_positions_[id].Y();
+        //new_foot_positions_[id].Z() = target_foot_positions_[id].Z();
+        
+        cout<<"target: "<<id<<" "<<target_foot_positions_[id].X() <<" "<<target_foot_positions_[id].Y()<<" "<<target_foot_positions_[id].Z()<<endl;
+   
       } 
-
-      if(no_warning){
-          gait_config_.com_x_translation =  0 ;
-          gait_config_.com_y_translation =  0 ;
-          base_.setGaitConfig(gait_config_);
-        }
-      visualizeFootAwareness(new_foot_positions_);
+      
+      visualizeFootAwareness(new_foot_positions_,original_foot_positions_);
       gridmap_available = false;
 
     }
@@ -500,7 +536,7 @@ void QuadrupedFootController::stabilizeCoM_(int ref_id, geometry::Transformation
   base_.setGaitConfig(gait_config_);
 }
 
-void QuadrupedFootController::visualizeFootAwareness(geometry::Transformation *foot_pos)
+void QuadrupedFootController::visualizeFootAwareness(geometry::Transformation *foot_pos,geometry::Transformation *orig_foot_pos )
 {   
     visualization_msgs::MarkerArray markerArray;
     visualization_msgs::Marker foot_marker;
@@ -509,7 +545,7 @@ void QuadrupedFootController::visualizeFootAwareness(geometry::Transformation *f
         counter = 0;
       foot_marker.header.frame_id = "base";
 
-      foot_marker.type = visualization_msgs::Marker::SPHERE;
+      foot_marker.type = visualization_msgs::Marker::CUBE;
       foot_marker.action = visualization_msgs::Marker::ADD;
       foot_marker.id = counter;
 
@@ -522,9 +558,9 @@ void QuadrupedFootController::visualizeFootAwareness(geometry::Transformation *f
       foot_marker.pose.orientation.z = 0.0;
       foot_marker.pose.orientation.w = 1.0;
 
-      foot_marker.scale.x = 0.05;
-      foot_marker.scale.y = 0.05;
-      foot_marker.scale.z = 0.05;
+      foot_marker.scale.x = 0.03;
+      foot_marker.scale.y = 0.03;
+      foot_marker.scale.z = 0.03;
 
       foot_marker.color.r = 1;
       foot_marker.color.g = 1;
@@ -532,6 +568,28 @@ void QuadrupedFootController::visualizeFootAwareness(geometry::Transformation *f
       foot_marker.color.a = 1;
       markerArray.markers.push_back(foot_marker);    
       counter ++;
+      foot_marker.type = visualization_msgs::Marker::SPHERE;
+      foot_marker.id = counter;
+      foot_marker.pose.position.x = orig_foot_pos[id].X();
+      foot_marker.pose.position.y = orig_foot_pos[id].Y();
+      foot_marker.pose.position.z = orig_foot_pos[id].Z();
+      
+      foot_marker.pose.orientation.x = 0.0;
+      foot_marker.pose.orientation.y = 0.0;
+      foot_marker.pose.orientation.z = 0.0;
+      foot_marker.pose.orientation.w = 1.0;
+
+      foot_marker.scale.x = 0.05;
+      foot_marker.scale.y = 0.05;
+      foot_marker.scale.z = 0.05;
+
+      foot_marker.color.r = 0;
+      foot_marker.color.g = 0;
+      foot_marker.color.b = 1;
+      foot_marker.color.a = 1;
+      markerArray.markers.push_back(foot_marker);    
+      counter ++;
+
     }
     markerPublisher_.publish(markerArray);
 

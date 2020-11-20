@@ -156,7 +156,7 @@ class QuadrupedFootController
     void gaitCallback_(const aliengo_msgs::GaitInfo& gait_msg);
     void gridmapCallback( const grid_map_msgs::GridMap msg);
     bool checkGridMapEmpty(const grid_map::GridMap mapMsg_);
-    void visualizeFootAwareness(geometry::Transformation *foot_pos);
+    void visualizeFootAwareness(geometry::Transformation *foot_pos,geometry::Transformation *orig_foot_pos );
     void odomCallback(const nav_msgs::OdometryConstPtr &msg);
     void stabilizeCoM_(int ref_id, geometry::Transformation *current_foot_positions_);
 

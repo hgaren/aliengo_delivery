@@ -5,9 +5,9 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import actionlib
 
 from geometry_msgs.msg import Twist
-from tf.transformations import quaternion_from_euler  
+from tf.transformations import quaternion_from_euler,euler_from_quaternion
 from nav_msgs.msg import Odometry
-
+ 
 class move_handler:
   def __init__(self):
     self.twist = Twist()
@@ -27,6 +27,9 @@ class move_handler:
     self.is_twist=False
     self.is_odom=False  
     self.control_speed = 0.1
+
+  
+
   def start(self):
     self.pub = rospy.Publisher('/cmd_vel',Twist, queue_size=10)
     self.pub1 = rospy.Publisher('/aliengo/ref_odom', Odometry, queue_size=10)
@@ -62,9 +65,9 @@ class move_handler:
     sec = now - self.starting
     key = ' '
     print(sec)
-    if(sec<1):
+    if(sec<1.5):
       key = 'r' 
-    if(sec>=1 and sec<3):
+    if(sec>=1.5 and sec<3):
       key = '-'
     if(sec>=3 and sec<7):
       key = 's'
@@ -145,7 +148,7 @@ class move_handler:
      self.odom.pose.pose.orientation.w = self.q[3]
      self.is_twist = True; self.is_odom = False
     elif data== 'r':
-      self.odom.pose.pose.position.z =self.odom.pose.pose.position.z+0.05 
+      self.odom.pose.pose.position.z =self.odom.pose.pose.position.z+0.02 
       print "z: " + str(self.odom.pose.pose.position.z)
       self.is_twist = False; self.is_odom = True
     elif data== 'f':

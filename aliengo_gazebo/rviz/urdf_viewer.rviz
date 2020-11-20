@@ -11,6 +11,9 @@ Panels:
         - /PointCloud21
         - /GridMap1
         - /MarkerArray2
+        - /Pose1
+        - /Odometry2
+        - /Odometry2/Shape1
       Splitter Ratio: 0.38333332538604736
     Tree Height: 845
   - Class: rviz/Selection
@@ -31,7 +34,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -328,7 +331,7 @@ Visualization Manager:
       Marker Topic: /awareness_foot_marker
       Name: MarkerArray
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
       Value: true
     - Angle Tolerance: 0.10000000149011612
@@ -377,7 +380,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 0
@@ -394,7 +397,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -467,8 +470,57 @@ Visualization Manager:
       Marker Topic: /general_traversability_node/traversability_estimation_marker
       Name: MarkerArray
       Namespaces:
-        marker_traverse_estimation: true
+        {}
       Queue Size: 1
+      Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: /move_base/current_goal
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: Odometry
+      Position Tolerance: 0.10000000149011612
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 252; 175; 62
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /aliengo/odometry
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -498,25 +550,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 1.8084439039230347
+      Distance: 23.66061019897461
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.1758217811584473
-        Y: 0.07449531555175781
-        Z: -3.5762786865234375e-7
+        X: -2.3038532733917236
+        Y: 0.7780228853225708
+        Z: 7.083590844558785e-6
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8897956609725952
+      Pitch: 0.5997951626777649
       Target Frame: base_footprint
       Value: XYOrbit (rviz)
-      Yaw: 1.4053291082382202
+      Yaw: 1.5053353309631348
     Saved: ~
 Window Geometry:
   Displays:
