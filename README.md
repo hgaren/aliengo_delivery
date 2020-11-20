@@ -116,11 +116,13 @@ State Machine Snapshots of Autonmous Delivery Scenario (DES is obtained from The
 ## Results
 
 Robot is able to pick-up package and delivery one floor above by climbing stair.
-![](docs/final.gif?raw=true)
-* Video Result of Implemening State Machine considering all states and events 
+![](docs/scenario.gif?raw=true)
+* Video Result of Implemening State Machine considering all CONTRALLABLE states and events 
 
 
-
+Robots are able to return initial starting state if robot is falling or box is falling
+![](docs/uncontrollable.gif?raw=true)
+* Video Result of Implemening State Machine considering all UNCONTRALLABLE states and events 
 
 
 
