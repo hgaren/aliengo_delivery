@@ -60,7 +60,7 @@ Proposed delivery framework which includes three main block; DES, Conveyor Belt 
 
 Visualization of multi-floor environment and two collaborative robots
 ![](docs/scenario.png?raw=true )
-![](docs/robot_2.png?raw=true )
+![](docs/robots_2.png?raw=true )
 
 * Simulation  Environment  in  Gazebo:  (Up-Left)  indoor-unevenenvironment  which  includes  stair, (Bottom  Left)  Quadrupedal  robot  which a package carrier  is  mounted on it’s  back,  (Bottom  Right)  Conveyor  belt  which  moves box to robot’s back
 
