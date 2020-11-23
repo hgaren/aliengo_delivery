@@ -6,7 +6,9 @@ The aim of the paper  is using  theory  of supervisory  control  of DES  to supe
 By applying the theory, we show collaboration of two individual robots to deliver goods in multi-floor environment
 The obtained results from the theory of supervisory control is implemented and verified in simulation environment.
 In this code, four legged robot Aliengo and a conveyor belt are implemented in Gazebo environment to collaborate and deliver goods in destinated area. 
-We implement Theory of Supervisory Control of Discrete Events-States (DES)  using ROS-Smach library
+We implement Theory of Supervisory Control of Discrete Events-States (DES)  using ROS-Smach library. 
+
+
 
 * State Machine library (Smach) is obtained from 
 https://github.com/ros/executive_smach
@@ -17,6 +19,7 @@ https://github.com/unitreerobotics/aliengo_ros and https://github.com/unitreerob
 * Aliengo's Gait generator and Balancing Control is obtained from 
 https://github.com/chvmp/champ.git
 
+* Note that at this branch, local awarness framework doesnt use in stair climbing application,instead CHAMP lib is used to generate foot placement for climbing (even though it may not be safe for real application). For more information about local awarness for safe foot placement, you can check out elevation mapping and traversability analysis.
 ## Dependencies:
 Requirment:
 * Ubuntu 16.04 or 18.04
