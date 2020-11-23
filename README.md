@@ -1,4 +1,4 @@
-# Instructions: Package Delivery Scenerio in Multi-Floor Environment using State Machine .
+# Instructions: Package Delivery Scenario in Multi-Floor Environment using State Machine
 
 In paper, the supervisory control of a Discrete Event System (DES) is analyzed to construct autonomous package delivery system. 
 The delivery system includes legged robot in order to autonomously navigate uneven indoor terrain and a conveyor belt for transporting the package to  the legged robot. 
