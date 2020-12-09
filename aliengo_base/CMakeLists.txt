@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(aliengo_base)
 
- 
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
- 
+
 find_package(PCL 1.7 REQUIRED)
-find_package(catkin 
-    REQUIRED 
-    COMPONENTS 
+find_package(catkin
+    REQUIRED
+    COMPONENTS
     roscpp
     rospy
     visualization_msgs
@@ -33,8 +33,7 @@ find_package(catkin
 
 catkin_package(
     INCLUDE_DIRS include
-    LIBRARIES champ_base
-    CATKIN_DEPENDS 
+    CATKIN_DEPENDS
     roscpp
     rospy
     visualization_msgs
@@ -47,7 +46,7 @@ catkin_package(
     urdf
     aliengo_msgs
 )
- 
+
 
 install(DIRECTORY include/libchamp/
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
@@ -100,7 +99,7 @@ add_dependencies(quadruped_awareness_controller  ${catkin_EXPORTED_TARGETS})
 
 
 
-install(TARGETS 
+install(TARGETS
     quadruped_controller
     quadruped_controller_node
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
