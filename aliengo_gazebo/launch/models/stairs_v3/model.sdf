@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="stairs_v3">
+ <static>true</static>
+ 
+  <pose>0 0 0 0 0 0 </pose>
+    <link name="link">
+      <collision name="collision">
+ 
+          <geometry>
+          <mesh>
+            <scale>1 1.5 0.2</scale>
+            <uri>model://stairs_v3/meshes/stairs_v3.dae</uri>
+          </mesh>
+        </geometry>
+         
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      
+      <visual name="visual">
+	  <cast_shadows>true</cast_shadows>
+         
+        <geometry>
+          <mesh>
+            <scale>1 1.5 0.2</scale>
+            <uri>model://stairs_v3/meshes/stairs_v3.dae</uri>
+          </mesh>
+        </geometry>
+       
+      </visual>
+    </link>
+  </model>
+</sdf>
