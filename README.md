@@ -39,6 +39,7 @@ sudo apt-get install ros-melodic-controller-manager ros-melodic-ros-control ros-
 Additionally, to open elevated_world_v2  simulation enviroment, two models are needed to added to gazebo. 
 1- go ../aliengo_gazebo/launch/models copy folders named brick_box_3x1x3 and stair_v3 .
 2- go ~/.gazebo/models/ and paste two folders in it.
+
 ## Building ROS workspace:
 
 make a workspace folder (for example: aliengo_delivery_ws) and copy src file into here.
