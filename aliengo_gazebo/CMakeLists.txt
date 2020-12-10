@@ -17,8 +17,9 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(gazebo REQUIRED)
 
 catkin_package(
-    CATKIN_DEPENDS 
-    laikago_msgs 
+    CATKIN_DEPENDS
+    laikago_msgs
+    gazebo_ros
 )
 
 include_directories(
@@ -33,7 +34,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 
 # Declare a C++ library
 add_library(${PROJECT_NAME}
-    src/body.cpp 
+    src/body.cpp
 )
 
 add_dependencies(${PROJECT_NAME} laikago_msgs_gencpp)
@@ -54,4 +55,8 @@ target_link_libraries(laikago_external_force ${catkin_LIBRARIES})
 add_executable(laikago_servo src/exe/servo.cpp)
 target_link_libraries(laikago_servo ${PROJECT_NAME} ${catkin_LIBRARIES})
 
-
+install(DIRECTORY
+            launch
+            models
+            world
+      	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
