@@ -2,7 +2,7 @@
 <robot name="simple_box">
   <link name="my_box">
     <inertial>
-      <origin xyz="0 0 0" /> 
+      <origin xyz="0 0 0" />
       <mass value="100.0" />
       <inertia  ixx="100.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="100.0" />
     </inertial>
@@ -10,14 +10,14 @@
       <origin xyz="0 0 0"/>
       <geometry>
         <!--box size="4 1  0.01" /-->
-        <mesh filename="package://aliengo_gazebo/launch/world/belt.stl" scale="0.3 0.3 0.3"/>
+        <mesh filename="package://aliengo_gazebo/world/belt.stl" scale="0.3 0.2 0.3"/>
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0"/>
       <geometry>
         <!--box size="4  1 0.01" /-->
-        <mesh filename="package://aliengo_gazebo/launch/world/belt.stl" scale="0.3 0.3 0.3"/>
+        <mesh filename="package://aliengo_gazebo/world/belt.stl"scale="0.3 0.2 0.3"/>
       </geometry>
     </collision>
   </link>
@@ -54,9 +54,9 @@
 <!--3D LiDAR -->
 	<gazebo reference="laser_link_belt">
 		  <sensor name="velodyne_belt" type="ray">
-			<always_on>true</always_on> 
+			<always_on>true</always_on>
 			<update_rate>10</update_rate>
-			<visualize>true</visualize>
+			<visualize>false</visualize>
 			<ray>
 			  <scan>
 			<horizontal>
@@ -85,7 +85,7 @@
 			  <hokuyoMinIntensity>1</hokuyoMinIntensity>
 			  <alwaysOn>true</alwaysOn>
 			  <updateRate>5</updateRate>
-			  <pcl>2.0</pcl> 
+			  <pcl>2.0</pcl>
 			</plugin>
 		  </sensor>
 	</gazebo>

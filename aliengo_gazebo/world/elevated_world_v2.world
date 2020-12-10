@@ -377,7 +377,7 @@
         </link>
       </model>
 
-      <!-- <model name='stairs_v3'>
+      <model name='stairs_v3'>
         <pose frame=''>-0.985967 1.29236 0 0 0 -1.58476</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -386,7 +386,7 @@
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
-      </model> -->
+      </model>
       <light name='sun'>
         <pose frame=''>0 0 10 0 -0 0</pose>
       </light>
@@ -1491,7 +1491,7 @@
       <device>default</device>
     </audio>
 
-    <!-- <model name='stairs_v3'>
+    <model name='stairs_v3'>
       <static>1</static>
       <pose frame=''>0.338792 -0.393048 0 0 -0 0</pose>
       <link name='link'>
@@ -1532,6 +1532,6 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-    </model> -->
+    </model>
   </world>
 </sdf>
