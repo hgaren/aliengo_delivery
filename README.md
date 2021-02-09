@@ -40,13 +40,6 @@ ROS related packages for simulation
 sudo apt-get install ros-melodic-controller-manager ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-joint-state-controller ros-melodic-effort-controllers ros-melodic-velocity-controllers ros-melodic-position-controllers ros-melodic-robot-controllers ros-melodic-robot-state-publisher
 ```
 
-<<<<<<< HEAD
-Additionally, to open elevated_world_v2  simulation enviroment, two models are needed to added to gazebo. 
-1- go ../aliengo_gazebo/launch/models copy folders named brick_box_3x1x3 and stair_v3 .
-2- go ~/.gazebo/models/ and paste two folders in it.
-
-=======
->>>>>>> c63b323bfd8402ebbbf9423a129739b85dbfd75b
 ## Building ROS workspace:
 
 make a workspace folder (for example: aliengo_delivery_ws) and copy src file into here.
@@ -145,4 +138,5 @@ Robots are able to return initial starting state if robot is falling or box is f
 
 * Video Result of Implemening State Machine considering all UNCONTRALLABLE states and events
 
+## Reference
 Haddeler, G. (2021). The Analysis of Discrete-Event System in Autonomous Package Delivery using Legged Robot and Conveyor Belt. arXiv preprint arXiv:2101.12347.
