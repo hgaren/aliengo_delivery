@@ -25,10 +25,12 @@
     <exec_depend>roscpp</exec_depend>
     <exec_depend>std_msgs</exec_depend>
     <depend>laikago_msgs</depend>
+    <depend>gazebo_ros</depend>
 
-    <!-- The export tag contains other, unspecified, tags -->
     <export>
-        <!-- Other tools can request additional information be placed here -->
-        <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}"/>
+        <gazebo_ros plugin_path="${prefix}/lib"/>
+        <gazebo_ros gazebo_media_path="${prefix}/models:
+                                       ${prefix}/worlds"/>
+        <gazebo_ros gazebo_model_path="${prefix}/models"/>
     </export>
 </package>

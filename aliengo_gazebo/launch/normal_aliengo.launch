@@ -8,30 +8,31 @@
     <arg name="debug" default="false"/>
     <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
     <arg name="user_debug" default="false"/>
-    
+
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find aliengo_gazebo)/launch/world/elevated_world_v2.world"/>
+        <arg name="world_name" value="$(find aliengo_gazebo)/world/elevated_world_v2.world"/>
         <arg name="debug" value="$(arg debug)"/>
         <arg name="gui" value="$(arg gui)"/>
         <arg name="paused" value="$(arg paused)"/>
         <arg name="use_sim_time" value="$(arg use_sim_time)"/>
         <arg name="headless" value="$(arg headless)"/>
+        <arg name="verbose" value="true"/>
     </include>
 
     <!-- Load the URDF into the ROS Parameter Server -->
 <!--GAREN ADDS START-->
     <param name="robot_description"
-           command="$(find xacro)/xacro --inorder '$(find aliengo_description)/xacro/robot.xacro' 
+           command="$(find xacro)/xacro --inorder '$(find aliengo_description)/xacro/robot.xacro'
            DEBUG:=$(arg user_debug)"/>
 <!--GAREN ADDS END-->
-     
+
     <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
           args="-urdf -x -4.4 -y 3.5 -z 1.0  -model laikago_gazebo -param robot_description -unpause"/> <!--y: 4.081438 -->
-     
+
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner1" respawn="false" output="screen"
-          args="-urdf -x -3.315299  -y 8.041826 -z 0.05  -model belt -file '$(find aliengo_gazebo)/launch/world/moving_ground.urdf' -unpause"/>
+          args="-urdf -x -3.315299  -y 8.041826 -z 0.05  -model belt -file '$(find aliengo_gazebo)/world/moving_ground.urdf' -unpause"/>
  <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner2" respawn="false" output="screen"
-          args="-urdf -x -2.3 -y 8.031302 -z 0.5  -model box -file '$(find aliengo_gazebo)/launch/world/my_box.urdf' -unpause"/>
+          args="-urdf -x -2.3 -y 8.031302 -z 0.5  -model box -file '$(find aliengo_gazebo)/world/my_box.urdf' -unpause"/>
 
 
     <!-- Load joint controller configurations from YAML file to parameter server -->
@@ -66,7 +67,7 @@
 <!--Champ-Garen Legged Controller without Foot Placement -->
   	<!--include file="$(find aliengo_config)/launch/bringup.launch"/-->
 	<!-- 2D localization node -->
-	<!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+	<!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
             <remap from="odometry/filtered" to="odometry/filtered" />
             <rosparam command="load" file="$(find aliengo_config)/config/ekf/ekf.yaml" />
         </node-->

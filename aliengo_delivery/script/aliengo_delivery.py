@@ -2,7 +2,7 @@
 
 import rospy
 import actionlib
-from aliengo_move import move_handler    
+from aliengo_move import move_handler
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from tf.transformations import quaternion_from_euler,euler_from_quaternion
 from aliengo_state_mach.msg import RoverStateMsg,RoverActionMsg
@@ -22,12 +22,12 @@ pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
 aliengo_down = True
 box_dropped = True
 def state_callback(msg):
-  global  stateMsg 
+  global  stateMsg
   global state_able
-  stateMsg = msg 
+  stateMsg = msg
   state_able = True
 
-    
+
 def callbackodom_aliengo(data):
   orientation_q = data.pose.pose.orientation
   orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
@@ -91,7 +91,7 @@ def spawn_robot():
 def spawn_box():
  # pauseSim()
   rospy.wait_for_service("/gazebo/spawn_urdf_model")
-  file_localition = roslib.packages.get_pkg_dir('aliengo_gazebo') + '/launch/world/my_box.urdf'
+  file_localition = roslib.packages.get_pkg_dir('aliengo_gazebo') + '/world/my_box.urdf'
   p = os.popen("rosrun xacro xacro " + file_localition)
   xml_string = p.read()
   p.close()
@@ -126,8 +126,8 @@ def spawn_box():
 if __name__ == '__main__':
   rospy.init_node('aliengo_delivery')
   rospy.Subscriber("/smach/output",RoverStateMsg,state_callback)
-  rospy.Subscriber("/aliengo/odometry", Odometry,  callbackodom_aliengo)    
-  rospy.Subscriber("/box/odometry", Odometry, callbackodom_box)    
+  rospy.Subscriber("/aliengo/odometry", Odometry,  callbackodom_aliengo)
+  rospy.Subscriber("/box/odometry", Odometry, callbackodom_box)
   action_pub = rospy.Publisher("/smach/input", RoverActionMsg, queue_size=1)
   actionMsg = RoverActionMsg()
   move_handler = move_handler()
@@ -145,7 +145,7 @@ if __name__ == '__main__':
         user_input = raw_input()
         if(user_input == 's'):
           actionMsg.ACTION = actionMsg.FIRST_GOAL_STARTED
-          action_pub.publish(actionMsg)  
+          action_pub.publish(actionMsg)
 
       if(stateMsg.state == stateMsg.WALKING_IDLE_1):
         x = [-5.364326,-5.151546]
@@ -156,7 +156,7 @@ if __name__ == '__main__':
           action_pub.publish(actionMsg)
           move_handler.start_timing()
 
-       
+
       if(stateMsg.state == stateMsg.DOCKING_IDLE):
         print(move_handler.robot_docking())
         if(move_handler.robot_docking()):

@@ -3,7 +3,7 @@ project(aliengo_delivery)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
- 
+
 find_package(PCL 1.7 REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -16,7 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   sensor_msgs
   gazebo_msgs
-aliengo_state_mach
+  aliengo_state_mach
 )
 include_directories(  ${catkin_INCLUDE_DIRS}  ${PCL_INCLUDE_DIRS} )
 link_directories(${PCL_LIBRARY_DIRS})
@@ -26,8 +26,10 @@ find_package(octomap REQUIRED)
 catkin_package(INCLUDE_DIRS
       include
     LIBRARIES
-      ${PROJECT_NAME})
-
+      ${PROJECT_NAME}
+    CATKIN_DEPENDS
+      aliengo_state_mach
+      )
 
 include_directories(
 include
@@ -35,14 +37,15 @@ include
  ${EIGEN3_INCLUDE_DIR}
   ${OCTOMAP_INCLUDE_DIR}
 )
- 
 
 
- 
-add_library(${PROJECT_NAME}   
+
+
+add_library(${PROJECT_NAME}
 	src/lib_code/belt_control.cpp
 )
 
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
@@ -69,5 +72,5 @@ install(
 )
 install(DIRECTORY  launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
- 
+
 )

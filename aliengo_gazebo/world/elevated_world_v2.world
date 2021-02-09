@@ -125,7 +125,7 @@
       <real_time>2050 375900151</real_time>
       <wall_time>1602841723 116337527</wall_time>
       <iterations>1249525</iterations>
-     
+
       <model name='brick_box_3x1x3'>
         <pose frame=''>2.00888 -1.91352 -0.775904 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -376,7 +376,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-       
+
       <model name='stairs_v3'>
         <pose frame=''>-0.985967 1.29236 0 0 0 -1.58476</pose>
         <scale>1 1 1</scale>
@@ -1490,8 +1490,7 @@
     <audio>
       <device>default</device>
     </audio>
-    
-      
+
     <model name='stairs_v3'>
       <static>1</static>
       <pose frame=''>0.338792 -0.393048 0 0 -0 0</pose>

@@ -22,9 +22,10 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   octomap_msgs
   filters
- map_msgs
+  map_msgs
+  eband_local_planner
 )
- 
+
 
 
 ## System dependencies are found with CMake's conventions

@@ -16,14 +16,14 @@ pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
 box_dropped = True
 
 
-    
+
 def callbackodom_aliengo(data):
   orientation_q = data.pose.pose.orientation
   orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
   (roll, pitch, yaw) = euler_from_quaternion (orientation_list)
   if( abs(roll)> 0.5):
     print("Aliengo is Down !")
- 
+
 def callbackodom_box(data):
   print(data.pose.pose.position.z)
   global box_dropped
@@ -36,7 +36,7 @@ def callbackodom_box(data):
 def spawn_box():
  # pauseSim()
   rospy.wait_for_service("/gazebo/spawn_urdf_model")
-  file_localition = roslib.packages.get_pkg_dir('aliengo_gazebo') + '/launch/world/my_box.urdf'
+  file_localition = roslib.packages.get_pkg_dir('aliengo_gazebo') + '/world/my_box.urdf'
   p = os.popen("rosrun xacro xacro " + file_localition)
   xml_string = p.read()
   p.close()
@@ -105,11 +105,11 @@ def unpauseSim():
 
 if __name__ == '__main__':
   rospy.init_node('aliengo_spawner')
-  
+
 
   rate = rospy.Rate(10)
   while not rospy.is_shutdown():
-	rospy.Subscriber("/aliengo/odometry", Odometry,  callbackodom_aliengo)    
-	rospy.Subscriber("/box/odometry", Odometry, callbackodom_box)  
+	rospy.Subscriber("/aliengo/odometry", Odometry,  callbackodom_aliengo)
+	rospy.Subscriber("/box/odometry", Odometry, callbackodom_box)
 	rospy.spin()
 	rate.sleep()
