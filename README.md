@@ -144,3 +144,5 @@ Robots are able to return initial starting state if robot is falling or box is f
 ![](docs/uncontrollable.gif?raw=true)
 
 * Video Result of Implemening State Machine considering all UNCONTRALLABLE states and events
+
+Haddeler, G. (2021). The Analysis of Discrete-Event System in Autonomous Package Delivery using Legged Robot and Conveyor Belt. arXiv preprint arXiv:2101.12347.
